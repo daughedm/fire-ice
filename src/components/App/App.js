@@ -3,9 +3,8 @@ import PropTypes, { shape, func, string } from 'prop-types';
 import logo from './logo.svg';
 import './App.css';
 import { connect } from 'react-redux';
-import { fakeAction } from '../../actions';
 import { houseFetch } from '../../apiCalls/apiCalls';
-import { addHouses } from '../../actions/index';
+import addHouses from '../../actions/index';
 
 class App extends Component {
   constructor(props) {
@@ -13,14 +12,15 @@ class App extends Component {
     this.state = {};
   }
 
-  componentDidMount = () => {
-    const houses = this.fetchHouses();
+  componentDidMount = async () => {
+    const houses = await this.fetchHouses();
+    
     this.props.handleAddHouses(houses);
   }
 
   fetchHouses = () => {
-    const url = 'https://www.anapioficeandfire.com/api/v1/houses';
-    houseFetch(url);
+    const url = 'http://localhost:3001/api/v1/houses';
+    return houseFetch(url);
 
   }
   
