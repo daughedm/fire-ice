@@ -3,18 +3,20 @@ import PropTypes, { shape, func, string } from 'prop-types';
 import logo from './logo.svg';
 import './App.css';
 import { connect } from 'react-redux';
+import CardContainer from '../CardContainer/CardContainer';
 import { houseFetch } from '../../apiCalls/apiCalls';
 import addHouses from '../../actions/index';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: true
+    };
   }
 
   componentDidMount = async () => {
     const houses = await this.fetchHouses();
-    
     this.props.handleAddHouses(houses);
   }
 
@@ -36,6 +38,7 @@ class App extends Component {
           }}> FAKE ACTION</button>
         </div>
         <div className='Display-info'>
+          <CardContainer />
         </div>
       </div>
     );
