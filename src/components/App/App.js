@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import CardContainer from '../CardContainer/CardContainer';
 import { houseFetch } from '../../apiCalls/apiCalls';
 import { swornMembersFetch } from '../../apiCalls/apiCalls';
-import addHouses from '../../actions/index';
+import { addHouses, addSwornMembers } from '../../actions/index';
 import loadingGif from '../../Assets/wolf.gif';
 
 class App extends Component {
@@ -20,7 +20,7 @@ class App extends Component {
   componentDidMount = async () => {
     const houses = await this.fetchHouses();
     this.props.handleAddHouses(houses);
-    this.setState({isLoading: false})
+    this.setState({isLoading: false});
   }
 
   fetchHouses = () => {
@@ -34,8 +34,9 @@ class App extends Component {
       const memberNumber = splitUrl.slice(-1)[0];
       const url = `http://localhost:3001/api/v1/character/${memberNumber}`;
       const memberFetch = await swornMembersFetch(url);
-      return memberFetch;
+      return await memberFetch;
     });
+    this.props.handleAddHouses(swornMembers);
     return swornMembers;
   }
   
@@ -51,10 +52,6 @@ class App extends Component {
         <div className='App-header'>
           <img src={logo} className='App-logo' alt='logo' />
           <h2>Welcome to Westeros</h2>
-          {/* <button onClick={() => {
-            this.props.fakeAction();
-            alert(this.props.fake);
-          }}> FAKE ACTION</button> */}
         </div>
         {loading}
       </div>
@@ -70,7 +67,8 @@ App.propTypes = {
 const mapStateToProps = ({ fake }) => ({ fake });
 
 const mapDispatchToProps = dispatch => ({ 
-  handleAddHouses:(houses) => dispatch(addHouses(houses))
+  handleAddHouses:(houses) => dispatch(addHouses(houses)),
+  handleAddSwornMembers:(members) => dispatch(addSwornMembers(members))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { mapStateToProps } from '../CardContainer/CardContainer';
 
 const Card = ({ house, fetchSwornMembers }) => {
   return (

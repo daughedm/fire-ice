@@ -1,6 +1,10 @@
-const addHouses = (houses) => ({
+export const addHouses = (houses) => ({
   type: 'ADD_HOUSES',
   houses
 });
 
-export default addHouses;
+export const addSwornMembers = (members) => ({
+  type: 'ADD_SWORNMEMBER',
+  members
+});
+
