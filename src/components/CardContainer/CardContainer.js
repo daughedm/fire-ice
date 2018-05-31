@@ -6,8 +6,11 @@ import Card from '../Card/Card';
 
 const CardContainer = (props) => {
   const cards = props.houses.map((house, index) => {
-    return <Card house={ house } key={index}/>
-  })
+    return <Card 
+      house={ house } 
+      fetchSwornMembers={props.fetchSwornMembers}
+      key={index}/>;
+  });
   
   return (
     <div className="Container">

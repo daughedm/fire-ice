@@ -1,8 +1,10 @@
 import React from 'react';
 
-const Card = ({ house }) => {
+const Card = ({ house, fetchSwornMembers }) => {
   return (
-    <div className="Card">
+    <div className="Card"
+      onClick={()=>fetchSwornMembers(house)}
+    >
       <h1>{house.name}</h1>
       <h3>Founded: {house.founded}</h3>
       <h3>Seats: {house.seat}</h3>
