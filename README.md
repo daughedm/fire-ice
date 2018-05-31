@@ -30,3 +30,4 @@ If you've looked at the house objects coming in, you might have noticed the `swo
 
 This data should not be fetched until the user clicks on the card.
 You can solve this any way you'd like. If you decided to use router you might want to consider creating a dynamic route to render each sworn member.
+# fire-ice
