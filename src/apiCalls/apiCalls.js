@@ -1,5 +1,10 @@
 export const houseFetch = (url) => {
   return fetch(url)
-    .then(response => response.json())
-    .then(houseData => houseData);
+    .then(response => response.json());
 };
+
+export const swornMembersFetch = (url) => {
+  return fetch(url)
+    .then(response => response.json())
+    .then(members => members);
+}
