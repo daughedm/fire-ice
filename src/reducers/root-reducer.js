@@ -4,7 +4,7 @@ import { swornMemberReducer } from './swornMemberReducer';
 
 const rootReducer = combineReducers({
   houses: housesReducer,
-  swornMember: swornMemberReducer
+  swornMembers: swornMemberReducer
 });
 
 export default rootReducer;

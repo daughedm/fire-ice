@@ -4,8 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import { connect } from 'react-redux';
 import CardContainer from '../CardContainer/CardContainer';
-import { houseFetch } from '../../apiCalls/apiCalls';
-import { swornMembersFetch } from '../../apiCalls/apiCalls';
+import { houseFetch, swornMembersFetch  } from '../../apiCalls/apiCalls';
 import { addHouses, addSwornMembers } from '../../actions/index';
 import loadingGif from '../../Assets/wolf.gif';
 
@@ -28,15 +27,16 @@ class App extends Component {
     return houseFetch(url);
   }
 
-  fetchSwornMembers = (house) => {
-    const swornMembers = house.swornMembers.map(async member => {
+  fetchSwornMembers = async (house) => {
+    const swornMembers = await Promise.all(house.swornMembers.map(async member => {
       const splitUrl = member.split('/');
       const memberNumber = splitUrl.slice(-1)[0];
       const url = `http://localhost:3001/api/v1/character/${memberNumber}`;
       const memberFetch = await swornMembersFetch(url);
-      return await memberFetch;
-    });
-    this.props.handleAddHouses(swornMembers);
+      return memberFetch;
+    }));
+  
+    this.props.handleAddSwornMembers(house.name, swornMembers);
     return swornMembers;
   }
   
@@ -60,15 +60,15 @@ class App extends Component {
 }
 
 App.propTypes = {
-  handleAddHouses: func.isRequired
-  
+  handleAddHouses: func.isRequired,
+  handleAddSwornMembers: func.isRequired
 };
 
 const mapStateToProps = ({ fake }) => ({ fake });
 
 const mapDispatchToProps = dispatch => ({ 
   handleAddHouses:(houses) => dispatch(addHouses(houses)),
-  handleAddSwornMembers:(members) => dispatch(addSwornMembers(members))
+  handleAddSwornMembers:(houseName, members) => dispatch(addSwornMembers(houseName, members))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
