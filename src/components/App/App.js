@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import CardContainer from '../CardContainer/CardContainer';
 import { houseFetch } from '../../apiCalls/apiCalls';
 import addHouses from '../../actions/index';
+import loadingGif from '../../Assets/wolf.gif';
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class App extends Component {
   componentDidMount = async () => {
     const houses = await this.fetchHouses();
     this.props.handleAddHouses(houses);
+    this.setState({isLoading: false})
   }
 
   fetchHouses = () => {
@@ -27,6 +29,12 @@ class App extends Component {
   }
   
   render() {
+    const loading = this.state.isLoading ? 
+      ( <img src={loadingGif} /> ) : 
+      (<div className='Display-info'>
+        <CardContainer />
+      </div>);
+    
     return (
       <div className='App'>
         <div className='App-header'>
@@ -37,9 +45,7 @@ class App extends Component {
             alert(this.props.fake);
           }}> FAKE ACTION</button>
         </div>
-        <div className='Display-info'>
-          <CardContainer />
-        </div>
+        {loading}
       </div>
     );
   }
