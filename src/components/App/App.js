@@ -4,8 +4,26 @@ import logo from './logo.svg';
 import './App.css';
 import { connect } from 'react-redux';
 import { fakeAction } from '../../actions';
-class App extends Component {
+import { houseFetch } from '../../apiCalls/apiCalls';
+import { addHouses } from '../../actions/index';
 
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount = () => {
+    const houses = this.fetchHouses();
+    this.props.handleAddHouses(houses);
+  }
+
+  fetchHouses = () => {
+    const url = 'https://www.anapioficeandfire.com/api/v1/houses';
+    houseFetch(url);
+
+  }
+  
   render() {
     return (
       <div className='App'>
@@ -25,12 +43,14 @@ class App extends Component {
 }
 
 App.propTypes = {
-  fake: shape({ fake: string }),
-  fakeAction: func.isRequired
+  handleAddHouses: func.isRequired
+  
 };
 
 const mapStateToProps = ({ fake }) => ({ fake });
-const mapDispatchToProps = dispatch => ({ fakeAction:
-  () => dispatch(fakeAction())
+
+const mapDispatchToProps = dispatch => ({ 
+  handleAddHouses:(houses) => dispatch(addHouses(houses))
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(App);
